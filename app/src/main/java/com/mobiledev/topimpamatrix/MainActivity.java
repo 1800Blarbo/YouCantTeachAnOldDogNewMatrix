@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import org.ejml.data.CDenseMatrix64F;
+import org.ejml.ops.CRandomMatrices;
+
+import java.util.Random;
 
 /**
  * Created by larspmayrand on 4/14/16.
@@ -18,10 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         /* Start DetailActivity for randomly generated complex matrix. */
-        double[][] array = new double[][]
-                {{Math.random() * 30 - 15, Math.random() * 30 - 15, Math.random() * 30 - 15, 0},
-                        {Math.random() * 30 - 15, Math.random() * 30 - 15, 0, Math.random() * 30 - 15}};
-        CDenseMatrix64F matrix = new CDenseMatrix64F(array);
+        CDenseMatrix64F matrix = CRandomMatrices.createHermPosDef(2, new Random());
         //CDenseMatrix64F matrix = MatrixHelper.makeComplex(RandomMatrices.createOrthogonal(2, 2, new Random()));
         Intent intent = new Intent(this,DetailActivity.class);
         Bundle mBundle = new Bundle();

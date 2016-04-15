@@ -81,7 +81,7 @@ public class DetailActivity extends Activity {
         String js = FormatHelper.matrixToLatex(mMatrix);
         mWebView.loadDataWithBaseURL("file:///android_asset/", js, "text/html", "UTF-8", null);
 
-        mDetails = MatrixRecyclerViewHelper.getDetails(mMatrix);
+        mDetails = DetailRecyclerViewHelper.getDetails(mMatrix);
         mAdapter = new DetailRecyclerViewAdapter(mDetails, new DetailRecyclerViewAdapter.DetailRowOnClickListener() {
             @Override
             public void onDetailRowClick(Detail detail) {

@@ -77,6 +77,30 @@ public class FormatHelper {
         return string + ")";
     }
 
+    public static String vectorToString(Complex64F[] vector) {
+        String string = "(";
+        for (int i = 0; i < vector.length; i++) {
+            if (i < vector.length - 1) {
+                string += complexToString(vector[i]) + ")";
+            } else {
+                string += complexToString(vector[i]) + ", ";
+            }
+        }
+        return string;
+    }
+
+    public static String vectorToString(double[] vector) {
+        String string = "(";
+        for (int i = 0; i < vector.length; i++) {
+            if (i < vector.length - 1) {
+                string += round(vector[i], 3) + ")";
+            } else {
+              string += round(vector[i], 3) + ", ";
+            }
+        }
+        return string;
+    }
+
     public static String complexToString(Complex64F complex) { // cuz ejml's SUCKS
         if (complex.real == 0) {
             int imaginaryPart = (int) Math.abs(complex.imaginary);
@@ -92,7 +116,6 @@ public class FormatHelper {
                     return complex.imaginary > 0 ? round(complex.imaginary, 3) + "i" : round(complex.imaginary, 3) + "i";
             }
         }
-        // here you have to print the real part
         String realPart = ((int) complex.real == complex.real) ? (int) complex.real + "" : round(complex.real, 3) + "";
         if (complex.isReal()) {
             return realPart;

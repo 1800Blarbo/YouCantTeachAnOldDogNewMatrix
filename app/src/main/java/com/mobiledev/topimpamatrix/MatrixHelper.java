@@ -103,11 +103,12 @@ public class MatrixHelper {
         return isPrime(n) && (isPrime(n-2) || isPrime(n+2));
     }
 
-//    public static double length(Complex64F[] vector) {
-//        double length = 0;
-//        for (Complex64F entry: vector) {
-//
-//        }
-//    }
+    public static double length(double[] vector) {
+        double length = 0;
+        for (double entry: vector) {
+            length += entry*entry;
+        }
+        return Math.sqrt(length);
+    }
 
 }

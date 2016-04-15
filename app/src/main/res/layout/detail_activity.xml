@@ -5,16 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.mobiledev.topimpamatrix.MatrixMainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/activity_detail_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:elevation="8dp">
-
-
         <LinearLayout
             android:id="@+id/icon_bar"
             android:layout_width="match_parent"
@@ -45,13 +35,11 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.Toolbar>
-
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/detail_activity_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:layout_below="@+id/activity_detail_toolbar">
+        android:layout_below="@+id/icon_bar">
 
         <WebView
             android:id="@+id/detail_activity_webview"

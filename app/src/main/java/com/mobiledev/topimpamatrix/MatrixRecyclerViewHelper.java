@@ -2,6 +2,7 @@ package com.mobiledev.topimpamatrix;
 
 import org.ejml.data.CDenseMatrix64F;
 import org.ejml.data.Complex64F;
+import org.ejml.data.ComplexPolar64F;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.ops.CMatrixFeatures;
 import org.ejml.ops.MatrixFeatures;
@@ -12,65 +13,71 @@ import org.ejml.simple.SimpleMatrix;
  */
 public class MatrixRecyclerViewHelper {
 
-    public static boolean isReal(CDenseMatrix64F matrix) {
-        for (int r = 0; r < matrix.numRows; r++) {
-            for (int c = 0; c < matrix.numCols; c++) {
-                if (matrix.getImaginary(r, c) != 0) return false;
-            }
-        }
-        return true;
-    }
-
-    public static DenseMatrix64F makeReal(CDenseMatrix64F matrix) {
-        DenseMatrix64F real = new DenseMatrix64F(matrix.numRows, matrix.numCols);
-        for (int r = 0; r < matrix.numRows; r++) {
-            for (int c = 0; c < matrix.numCols; c++) {
-                real.set(r, c, matrix.getReal(r, c));
-            }
-        }
-        return real;
-    }
-
-    public static boolean isSquare(CDenseMatrix64F matrix) {
-        return matrix.numCols == matrix.numRows;
-    }
-
+    /**
+     * Classifies inputted complex matrix as complex/real, matrix/vector/number.
+     * Then calls the appropriate getDetails method
+     */
     public static Detail[] getDetails(CDenseMatrix64F matrix) {
-        if (MatrixRecyclerViewHelper.isReal(matrix)) {
-            return MatrixRecyclerViewHelper.getDetailsReal(MatrixRecyclerViewHelper.makeReal(matrix));
+        if (MatrixHelper.isReal(matrix)) {
+            DenseMatrix64F realMatrix = MatrixHelper.makeReal(matrix);
+            if (matrix.numCols == 1 || matrix.numRows == 1) {
+                double[] realVector = MatrixHelper.makeVector(realMatrix);
+                if (realVector.length == 1) {
+                    return getRealNumberDetails(realVector[0]);
+                }
+                return getRealVectorDetails(realVector);
+            }
+            return getRealMatrixDetails(realMatrix);
         }
+        if (matrix.numCols == 1 || matrix.numRows == 1) {
+            Complex64F[] imaginaryVector = MatrixHelper.makeVector(matrix);
+            if (imaginaryVector.length == 1) {
+                return getImaginaryNumberDetails(imaginaryVector[0]);
+            }
+            return getImaginaryVectorDetails(imaginaryVector);
+        }
+        return getImaginaryMatrixDetails(matrix);
+    }
 
-        Detail[] details = new Detail[6];
-        details[0] = new Detail("Trace", FormatHelper.complexToString(trace(matrix)));
-        details[1] = new Detail("Identity", FormatHelper.booleanToString(CMatrixFeatures.isIdentity(matrix, 1e-8)));
+    public static Detail[] getImaginaryMatrixDetails(CDenseMatrix64F matrix) {
+        Detail[] details = new Detail[7];
+
+//        if (matrix.numCols == matrix.numRows) {
+//            details[0] = new Detail("Transpose", FormatHelper.matrixToString(CTransposeAlgs.square(matrix)));
+//        }
+        details[0] = new Detail("Transpose", "");
+        details[1] = new Detail("Trace", FormatHelper.complexToString(MatrixHelper.trace(matrix)));
         details[2] = new Detail("Positive definite", FormatHelper.booleanToString(CMatrixFeatures.isPositiveDefinite(matrix)));
         details[3] = new Detail("Unitary", FormatHelper.booleanToString(CMatrixFeatures.isUnitary(matrix, 1e-8)));
-        details[4] = new Detail("Square", FormatHelper.booleanToString(MatrixRecyclerViewHelper.isSquare(matrix)));
+        details[4] = new Detail("Square", FormatHelper.booleanToString(MatrixHelper.isSquare(matrix)));
         details[5] = new Detail("Hermitian", FormatHelper.booleanToString(CMatrixFeatures.isHermitian(matrix, 1e-8)));
+        details[6] = new Detail("Identity", FormatHelper.booleanToString(CMatrixFeatures.isIdentity(matrix, 1e-8)));
         return details;
     }
 
-    private static Detail[] getDetailsReal(DenseMatrix64F matrix) {
+    public static Detail[] getRealMatrixDetails(DenseMatrix64F matrix) {
         if (MatrixFeatures.isVector(matrix)) {
-            return getDetailsVector(matrix);
+            return getRealVectorDetails(MatrixHelper.makeVector(matrix));
         }
         SimpleMatrix simple = SimpleMatrix.wrap(matrix);
-        String eigenvalues = "";
-        String eigenvectors = "";
-        int numEigenvalues = simple.eig().getNumberOfEigenvalues();
-        for (int i = 0; i < numEigenvalues; i++) {
-            if (i < numEigenvalues - 1) {
-                eigenvalues += "\\lambda_" + i + " = " + simple.eig().getEigenvalue(i);
-                eigenvectors += "v_" + i + " = " + simple.eig().getEigenVector(i);
-            } else {
-                eigenvalues += "\\lambda_" + i + " = " + simple.eig().getEigenvalue(i) + ", ";
-                eigenvectors += "v_" + i + " = " + simple.eig().getEigenVector(i) + ", ";
-            }
-        }
+//        String eigenvalues = "";
+//        String eigenvectors = "";
+//        int numEigenvalues = simple.eig().getNumberOfEigenvalues();
+//        for (int i = 0; i < numEigenvalues; i++) {
+//            if (i < numEigenvalues - 1) {
+//                eigenvalues += "\\lambda_" + i + " = " + FormatHelper.roundComplex(simple.eig().getEigenvalue(i), 3);
+//                eigenvectors += "v_" + i + " = " + simple.eig().getEigenVector(i);
+//            } else {
+//                eigenvalues += "\\lambda_" + i + " = " + simple.eig().getEigenvalue(i) + ", ";
+//                eigenvectors += "v_" + i + " = " + simple.eig().getEigenVector(i) + ", ";
+//            }
+//        }
 
         Detail[] details = new Detail[18];
-        details[0] = new Detail("Eigenvalues", eigenvalues);
-        details[1] = new Detail("Eigenvectors", eigenvectors);
+//        details[0] = new Detail("Eigenvalues", eigenvalues); // FIX EIGENSFF!
+//        details[1] = new Detail("Eigenvectors", eigenvectors);
+        details[0] = new Detail("Eigenavlues", "comming soon");
+        details[1] = new Detail("Eigenvectors", "comming soon!");
         details[2] = new Detail("Inverse", FormatHelper.matrixToString(simple.invert().getMatrix()));
         details[3] = new Detail("Transpose", FormatHelper.matrixToString(simple.transpose().getMatrix()));
         details[4] = new Detail("Trace", simple.trace() + "");
@@ -88,27 +95,32 @@ public class MatrixRecyclerViewHelper {
         details[15] = new Detail("Square", FormatHelper.booleanToString(MatrixFeatures.isSquare(matrix)));
         details[16] = new Detail("Symmetric", FormatHelper.booleanToString(MatrixFeatures.isSymmetric(matrix)));
         details[17] = new Detail("Upper triangular matrix", FormatHelper.booleanToString(MatrixFeatures.isUpperTriangle(matrix, 0, 1e-8)));
-
         return details;
     }
 
-    private static Detail[] getDetailsVector(DenseMatrix64F matrix) {
+    public static Detail[] getImaginaryVectorDetails(Complex64F[] vector) {
         return new Detail[0];
     }
 
-    public static Complex64F trace(CDenseMatrix64F matrix) {
-        double realPart = 0;
-        double imaginaryPart = 0;
-        for (int r = 0; r < matrix.numRows; r++) {
-            for (int c = 0; c < matrix.numCols; c++) {
-                if (r == c) {
-                    realPart += matrix.getReal(r, c);
-                    imaginaryPart += matrix.getImaginary(r, c);
-                }
-            }
-        }
-        return new Complex64F(realPart, imaginaryPart);
+    public static Detail[] getRealVectorDetails(double[] vector) {
+        return new Detail[0];
     }
 
+    public static Detail[] getImaginaryNumberDetails(Complex64F number) {
+        ComplexPolar64F polarForm = new ComplexPolar64F(number);
+        Detail[] details = new Detail[2];
+        details[0] = new Detail("Modulus", polarForm.getR() + "");
+        details[1] = new Detail("Argument", "\\theta = " + polarForm.getTheta());
+        return details;
+    }
+
+    public static Detail[] getRealNumberDetails(double number) {
+        Detail[] details = new Detail[4];
+        details[0] = new Detail("Prime", FormatHelper.booleanToString(MatrixHelper.isPrime(number)));
+        details[1] = new Detail("Twin prime", FormatHelper.booleanToString(MatrixHelper.isTwin(number)));
+        details[2] = new Detail("Even", FormatHelper.booleanToString(number % 2 == 0));
+        details[3] = new Detail("Odd", FormatHelper.booleanToString(number % 2 != 0));
+        return details;
+    }
 
 }

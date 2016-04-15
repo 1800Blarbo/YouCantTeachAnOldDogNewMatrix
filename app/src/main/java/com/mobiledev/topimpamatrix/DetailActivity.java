@@ -53,7 +53,7 @@ public class DetailActivity extends Activity {
     private Detail[] mDetails;
     private DetailRecyclerViewAdapter mAdapter;
 
-    CDenseMatrix64F mMatrix;
+    public static final String ARG_MATRIX = "matrix";
 
     @Bind(R.id.activity_main_camera_image)
     ImageView mCameraImage;
@@ -63,8 +63,6 @@ public class DetailActivity extends Activity {
 
     @Bind(R.id.detail_activity_webview)
     WebView mWebView;
-
-    private String ARG_poop = "huh?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,22 +74,14 @@ public class DetailActivity extends Activity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         ButterKnife.bind(this);
 
-        double[][] array = new double[][]{{1, 1, 3, 0}, {5, 0, 7, 0}};
-        CDenseMatrix64F matrix = new CDenseMatrix64F(array); // by columns then rows: real, im
-        mMatrix = matrix;
+        CDenseMatrix64F mMatrix = (CDenseMatrix64F) getIntent().getSerializableExtra(MainActivity.SERIALIZABLE_KEY);
 
-        Log.d(ARG_poop, "real at r = 0, c = 0 " + matrix.getReal(0, 0));
-        Log.d(ARG_poop, "real at r = 0, c = 1 " + matrix.getReal(0, 1));
-        Log.d(ARG_poop, "real at r = 1, c = 0 " + matrix.getReal(1, 0));
-        Log.d(ARG_poop, "real at r = 1, c = 1 " + matrix.getReal(1, 1));
-        Log.d(ARG_poop, "imaginary at r = 0, c = 0 " + matrix.getImaginary(0, 0));
-        Log.d(ARG_poop, "imaginary at r = 0, c = 1 " + matrix.getImaginary(0, 1));
-        Log.d(ARG_poop, "imaginary at r = 1, c = 0 " + matrix.getImaginary(1, 0));
-        Log.d(ARG_poop, "imaginary at r = 1, c = 1 " + matrix.getImaginary(1, 1));
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        String js = FormatHelper.matrixToLatex(mMatrix);
+        mWebView.loadDataWithBaseURL("file:///android_asset/", js, "text/html", "UTF-8", null);
 
-        showMatrix(mMatrix);
-
-        mDetails = MatrixRecyclerViewHelper.getDetails(matrix);
+        mDetails = MatrixRecyclerViewHelper.getDetails(mMatrix);
         mAdapter = new DetailRecyclerViewAdapter(mDetails, new DetailRecyclerViewAdapter.DetailRowOnClickListener() {
             @Override
             public void onDetailRowClick(Detail detail) {
@@ -101,18 +91,28 @@ public class DetailActivity extends Activity {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
+
+        //Workorder workorder = (Workorder) intent.getSerializableExtra("SomeUniqueKey");
+
+//        double[][] array = new double[][]{{1, 1, 3, 0}, {5, 0, 7, 0}};
+//        CDenseMatrix64F matrix = new CDenseMatrix64F(array); // by columns then rows: real, im
+//        mMatrix = matrix;
+//
+//        Log.d(TAG, "real at r = 0, c = 0 " + matrix.getReal(0, 0));
+//        Log.d(TAG, "real at r = 0, c = 1 " + matrix.getReal(0, 1));
+//        Log.d(TAG, "real at r = 1, c = 0 " + matrix.getReal(1, 0));
+//        Log.d(TAG, "real at r = 1, c = 1 " + matrix.getReal(1, 1));
+//        Log.d(TAG, "imaginary at r = 0, c = 0 " + matrix.getImaginary(0, 0));
+//        Log.d(TAG, "imaginary at r = 0, c = 1 " + matrix.getImaginary(0, 1));
+//        Log.d(TAG, "imaginary at r = 1, c = 0 " + matrix.getImaginary(1, 0));
+//        Log.d(TAG, "imaginary at r = 1, c = 1 " + matrix.getImaginary(1, 1));
+
+
     }
 
     @OnClick(R.id.activity_camera_icon)
     public void cameraButtonClicked() {
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-    }
-
-    public void showMatrix(CDenseMatrix64F matrix) {
-        WebSettings webSettings = mWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        String js = FormatHelper.matrixToLatex(matrix);
-        mWebView.loadDataWithBaseURL("file:///android_asset/", js, "text/html", "UTF-8", null);
     }
 
     @Override

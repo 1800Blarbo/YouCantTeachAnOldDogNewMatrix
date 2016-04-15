@@ -12,7 +12,7 @@ import android.view.View;
  */
 public class OCR extends AppCompatActivity {
 
-    public static final String API_KEY = "4571bd58-9662-4d0d-9dfa-23f0479db860";
+    private final String apiKey = "4571bd58-9662-4d0d-9dfa-23f0479db860";
 
     public static final int SELECT_PICTURE = 1;
     private static final int TAKE_PICTURE = 2;
@@ -27,7 +27,8 @@ public class OCR extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == SELECT_PICTURE) {
+        if (requestCode == SELECT_PICTURE ||
+                requestCode == SELECT_PICTURE) {
             if (resultCode == RESULT_OK && null != data) {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -47,5 +48,4 @@ public class OCR extends AppCompatActivity {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         startActivityForResult(intent, TAKE_PICTURE);
     }
-
 }

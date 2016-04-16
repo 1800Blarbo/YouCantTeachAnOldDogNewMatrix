@@ -67,7 +67,7 @@ public class DetailRecyclerViewHelper {
 
 
 
-        details[4] = new Detail("Trace", FormatHelper.complexToString(MatrixHelper.trace(matrix)));go
+        details[4] = new Detail("Trace", FormatHelper.complexToString(MatrixHelper.trace(matrix)));
         details[5] = new Detail("Hermitian", FormatHelper.booleanToString(CMatrixFeatures.isHermitian(matrix, 1e-8)));
         details[6] = new Detail("Identity", FormatHelper.booleanToString(CMatrixFeatures.isIdentity(matrix, 1e-8)));
         details[7] = new Detail("Positive definite", FormatHelper.booleanToString(CMatrixFeatures.isPositiveDefinite(matrix)));

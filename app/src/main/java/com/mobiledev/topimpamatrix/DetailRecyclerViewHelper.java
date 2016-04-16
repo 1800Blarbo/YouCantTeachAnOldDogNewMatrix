@@ -56,18 +56,18 @@ public class DetailRecyclerViewHelper {
         details[0] = new Detail("Transpose", FormatHelper.matrixToString(transposed));
         details[1] = new Detail("Conjugate", FormatHelper.matrixToString(conjugate));
 
-        details[] = new Detail("Determinant", FormatHelper.complexToString(CCommonOps.det(matrix)) + "");
+        details[2] = new Detail("Determinant", FormatHelper.complexToString(CCommonOps.det(matrix)) + "");
 
         CDenseMatrix64F inverse = matrix.copy();
         CCommonOps.invert(inverse);
-        details[2] = new Detail("Inverse", FormatHelper.matrixToString(inverse));
+        details[3] = new Detail("Inverse", FormatHelper.matrixToString(inverse));
 
         //details[] = new Detail("Real part", FormatHelper.matrixToString())
 
 
 
 
-        details[8] = new Detail("Trace", FormatHelper.complexToString(MatrixHelper.trace(matrix)));go
+        details[4] = new Detail("Trace", FormatHelper.complexToString(MatrixHelper.trace(matrix)));go
         details[5] = new Detail("Hermitian", FormatHelper.booleanToString(CMatrixFeatures.isHermitian(matrix, 1e-8)));
         details[6] = new Detail("Identity", FormatHelper.booleanToString(CMatrixFeatures.isIdentity(matrix, 1e-8)));
         details[7] = new Detail("Positive definite", FormatHelper.booleanToString(CMatrixFeatures.isPositiveDefinite(matrix)));

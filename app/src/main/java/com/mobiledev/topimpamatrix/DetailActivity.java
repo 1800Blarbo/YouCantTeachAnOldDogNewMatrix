@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import org.ejml.data.CDenseMatrix64F;
+import org.ejml.ops.CRandomMatrices;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,6 +26,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -53,6 +56,8 @@ public class DetailActivity extends Activity {
     private Detail[] mDetails;
     private DetailRecyclerViewAdapter mAdapter;
 
+    public  final static String SERIALIZABLE_KEY = "key";
+
     public static final String ARG_MATRIX = "matrix";
 
     @Bind(R.id.activity_main_camera_image)
@@ -63,6 +68,9 @@ public class DetailActivity extends Activity {
 
     @Bind(R.id.detail_activity_webview)
     WebView mWebView;
+
+    @Bind(R.id.activity_calculator_icon)
+    ImageButton mCalculatorIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +121,28 @@ public class DetailActivity extends Activity {
     @OnClick(R.id.activity_camera_icon)
     public void cameraButtonClicked() {
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
+
+    @OnClick(R.id.activity_calculator_icon)
+    public void calculatorButtonClicked() {
+        CDenseMatrix64F matrixA = CRandomMatrices.createHermitian(2, -10, 10, new Random());
+        CDenseMatrix64F matrixB = CRandomMatrices.createHermPosDef(2, new Random());
+        Intent intent = new Intent(this, CalculatorActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putSerializable(SERIALIZABLE_KEY, matrixA);
+        mBundle.putSerializable(SERIALIZABLE_KEY, matrixB);
+        intent.putExtras(mBundle);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.activity_keyboard_icon)
+    public void keyboardButtonClicked() {
+        CDenseMatrix64F matrix = CRandomMatrices.createHermPosDef(2, new Random());
+        Intent intent = new Intent(this, Detail.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putSerializable(SERIALIZABLE_KEY, matrix);
+        intent.putExtras(mBundle);
+        startActivity(intent);
     }
 
     @Override

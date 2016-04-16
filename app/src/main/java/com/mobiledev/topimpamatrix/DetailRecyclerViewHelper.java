@@ -5,6 +5,7 @@ import org.ejml.data.CDenseMatrix64F;
 import org.ejml.data.Complex64F;
 import org.ejml.data.ComplexPolar64F;
 import org.ejml.data.DenseMatrix64F;
+import org.ejml.ops.CCommonOps;
 import org.ejml.ops.CMatrixFeatures;
 import org.ejml.ops.MatrixFeatures;
 import org.ejml.simple.SimpleMatrix;
@@ -42,6 +43,7 @@ public class DetailRecyclerViewHelper {
 
     public static Detail[] getImaginaryMatrixDetails(CDenseMatrix64F matrix) {
         Detail[] details = new Detail[8];
+
         CDenseMatrix64F transposed = matrix.copy();
         CDenseMatrix64F conjugate = matrix.copy();
         if (matrix.numCols == matrix.numRows) { // if matrix is square
@@ -53,12 +55,25 @@ public class DetailRecyclerViewHelper {
         }
         details[0] = new Detail("Transpose", FormatHelper.matrixToString(transposed));
         details[1] = new Detail("Conjugate", FormatHelper.matrixToString(conjugate));
-        details[2] = new Detail("Trace", FormatHelper.complexToString(MatrixHelper.trace(matrix)));
-        details[3] = new Detail("Unitary", FormatHelper.booleanToString(CMatrixFeatures.isUnitary(matrix, 1e-8)));
-        details[4] = new Detail("Square", FormatHelper.booleanToString(MatrixHelper.isSquare(matrix)));
+
+        details[] = new Detail("Determinant", FormatHelper.complexToString(CCommonOps.det(matrix)) + "");
+
+        CDenseMatrix64F inverse = matrix.copy();
+        CCommonOps.invert(inverse);
+        details[2] = new Detail("Inverse", FormatHelper.matrixToString(inverse));
+
+        //details[] = new Detail("Real part", FormatHelper.matrixToString())
+
+
+
+
+        details[8] = new Detail("Trace", FormatHelper.complexToString(MatrixHelper.trace(matrix)));go
         details[5] = new Detail("Hermitian", FormatHelper.booleanToString(CMatrixFeatures.isHermitian(matrix, 1e-8)));
         details[6] = new Detail("Identity", FormatHelper.booleanToString(CMatrixFeatures.isIdentity(matrix, 1e-8)));
         details[7] = new Detail("Positive definite", FormatHelper.booleanToString(CMatrixFeatures.isPositiveDefinite(matrix)));
+
+        details[9] = new Detail("Unitary", FormatHelper.booleanToString(CMatrixFeatures.isUnitary(matrix, 1e-8)));
+        details[10] = new Detail("Square", FormatHelper.booleanToString(MatrixHelper.isSquare(matrix)));
         return details;
     }
 
@@ -95,8 +110,8 @@ public class DetailRecyclerViewHelper {
         details[1] = new Detail("Eigenvectors", "comming soon!");
         details[2] = new Detail("Inverse", FormatHelper.matrixToString(simple.invert().getMatrix()));
         details[3] = new Detail("Transpose", FormatHelper.matrixToString(simple.transpose().getMatrix()));
-        details[4] = new Detail("Trace", simple.trace() + "");
-        details[5] = new Detail("Determinant", simple.determinant() + "");
+        details[4] = new Detail("Trace", FormatHelper.round(simple.trace(), 3) + "");
+        details[5] = new Detail("Determinant", FormatHelper.round(simple.determinant(), 3) + "");
         details[6] = new Detail("Rank", MatrixFeatures.nullity(matrix) + "");
         details[7] = new Detail("Nullity", MatrixFeatures.rank(matrix) + "");
         details[8] = new Detail("Are rows linearly independent", FormatHelper.booleanToString(MatrixFeatures.isRowsLinearIndependent(matrix)));

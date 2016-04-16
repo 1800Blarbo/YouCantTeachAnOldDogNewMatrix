@@ -33,6 +33,10 @@ public class FormatHelper {
                 + "$$" + string + "$$</body></html>";
     }
 
+    public static String matricesToLatex(CDenseMatrix64F matrixA, CDenseMatrix64F matrixB) {
+        return makeLatexString(6, matrixToString(matrixA) + matrixToString(matrixB));
+    }
+
     public static String matrixToLatex(CDenseMatrix64F matrix) {
         return makeLatexString(6, matrixToString(matrix));
     }
@@ -64,7 +68,7 @@ public class FormatHelper {
                 if (matrix.get(r, c) == (int) matrix.get(r, c)) {
                     string += (int) matrix.get(r, c);
                 } else {
-                    string += round(matrix.get(r, c), 3);
+                    string += round(matrix.get(r, c), 2);
                 }
                 if (c < matrix.numCols - 1) {
                     string += ", ";
@@ -93,9 +97,9 @@ public class FormatHelper {
         String string = "(";
         for (int i = 0; i < vector.length; i++) {
             if (i < vector.length - 1) {
-                string += round(vector[i], 3) + ")";
+                string += round(vector[i], 2) + ")";
             } else {
-              string += round(vector[i], 3) + ", ";
+              string += round(vector[i], 2) + ", ";
             }
         }
         return string;
@@ -106,24 +110,27 @@ public class FormatHelper {
             int imaginaryPart = (int) Math.abs(complex.imaginary);
             switch (imaginaryPart) {
                 case 0:
-                    return round(complex.real, 3) + "";
+                    return round(complex.real, 2) + "";
                 case 1:
                     return complex.imaginary > 0 ? " + i" : " - i";
                 default:
                     if ((int) complex.imaginary == complex.imaginary) {
                         return complex.imaginary > 0 ? " + " + (int) complex.imaginary + "i" : " - " + (int) complex.imaginary + "i";
                     }
-                    return complex.imaginary > 0 ? round(complex.imaginary, 3) + "i" : round(complex.imaginary, 3) + "i";
+                    return complex.imaginary > 0 ? round(complex.imaginary, 2) + "i" : round(complex.imaginary, 2) + "i";
             }
         }
-        String realPart = ((int) complex.real == complex.real) ? (int) complex.real + "" : round(complex.real, 3) + "";
+        String realPart = ((int) complex.real == complex.real) ? (int) complex.real + "" : round(complex.real, 2) + "";
         if (complex.isReal()) {
             return realPart;
+        }
+        if (complex.imaginary == 0) {
+            return round(complex.real, 2) + "";
         }
         if (Math.abs(complex.imaginary) == 1) {
             return complex.imaginary > 0 ? realPart + " + i" : realPart + " - i";
         }
-        String imaginaryPart = ((int) complex.imaginary == complex.imaginary) ? (int) Math.abs(complex.imaginary) + "" : round(Math.abs(complex.imaginary), 3) + "";
+        String imaginaryPart = ((int) complex.imaginary == complex.imaginary) ? (int) Math.abs(complex.imaginary) + "" : round(Math.abs(complex.imaginary), 2) + "";
         return complex.imaginary > 0 ? realPart + " + " + imaginaryPart + "i" : realPart + " - " + imaginaryPart + "i";
     }
 

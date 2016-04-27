@@ -3,6 +3,7 @@ package com.mobiledev.topimpamatrix;
 import org.ejml.data.CDenseMatrix64F;
 import org.ejml.data.Complex64F;
 import org.ejml.data.DenseMatrix64F;
+import org.ejml.simple.SimpleMatrix;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -81,25 +82,45 @@ public class FormatHelper {
         return string + ")";
     }
 
+    public static String matrixToString(SimpleMatrix matrix) {
+        return matrixToString(matrix.getMatrix());
+    }
+
     public static String vectorToString(Complex64F[] vector) {
-        String string = "(";
+        String string = "(\\table";
         for (int i = 0; i < vector.length; i++) {
             if (i < vector.length - 1) {
-                string += complexToString(vector[i]) + ")";
+                string += complexToString(vector[i]) + "; ";
             } else {
-                string += complexToString(vector[i]) + ", ";
+                string += complexToString(vector[i]) + ")";
             }
         }
         return string;
     }
 
-    public static String vectorToString(double[] vector) {
-        String string = "(";
+    public static String vectorToString(Vector vector) {
+        String string = "(\\table";
+        for (int i = 0; i < vector.getDimension(); i++) {
+            if (i < vector.getDimension() - 1) {
+                string += doubleToString(vector.getComponents()[i], 2) + "; ";
+            } else {
+                string += doubleToString(vector.getComponents()[i], 2) + ")";
+            }
+        }
+        return string;
+    }
+
+    public static String polarVectorToString(Vector vector) {
+        return "(\\table r; θ) = " + arrayToVector(new double[]{vector.getMagnitude(), vector.getTheta()});
+    }
+
+    public static String arrayToVector(double[] vector) {
+        String string = "(\\table";
         for (int i = 0; i < vector.length; i++) {
             if (i < vector.length - 1) {
-                string += round(vector[i], 2) + ")";
+                string += round(vector[i], 2) + "; ";
             } else {
-              string += round(vector[i], 2) + ", ";
+                string += round(vector[i], 2) + ")";
             }
         }
         return string;
@@ -110,19 +131,16 @@ public class FormatHelper {
             int imaginaryPart = (int) Math.abs(complex.imaginary);
             switch (imaginaryPart) {
                 case 0:
-                    return round(complex.real, 2) + "";
+                    return "0";
                 case 1:
-                    return complex.imaginary > 0 ? " + i" : " - i";
+                    return complex.imaginary > 0 ? "i" : "-i";
                 default:
-                    if ((int) complex.imaginary == complex.imaginary) {
-                        return complex.imaginary > 0 ? " + " + (int) complex.imaginary + "i" : " - " + (int) complex.imaginary + "i";
-                    }
-                    return complex.imaginary > 0 ? round(complex.imaginary, 2) + "i" : round(complex.imaginary, 2) + "i";
+                    return complex.imaginary > 0 ? doubleToString(complex.imaginary, 2) + "i" : " - " + doubleToString(complex.imaginary, 2) + "i";
             }
         }
-        String realPart = ((int) complex.real == complex.real) ? (int) complex.real + "" : round(complex.real, 2) + "";
+        String realPart = doubleToString(complex.real, 2);
         if (complex.isReal()) {
-            return realPart;
+            return doubleToString(complex.real, 2);
         }
         if (complex.imaginary == 0) {
             return round(complex.real, 2) + "";
@@ -132,6 +150,11 @@ public class FormatHelper {
         }
         String imaginaryPart = ((int) complex.imaginary == complex.imaginary) ? (int) Math.abs(complex.imaginary) + "" : round(Math.abs(complex.imaginary), 2) + "";
         return complex.imaginary > 0 ? realPart + " + " + imaginaryPart + "i" : realPart + " - " + imaginaryPart + "i";
+    }
+
+    public static String doubleToString(double value, int places) {
+        if ((int) value == value) return (int) value + "";
+        return round(value, places) + "";
     }
 
     public static double round(double value, int places) {

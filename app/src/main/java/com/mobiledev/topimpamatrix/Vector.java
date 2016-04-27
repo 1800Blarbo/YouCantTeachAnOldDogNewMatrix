@@ -4,25 +4,39 @@ package com.mobiledev.topimpamatrix;
  * Created by larspmayrand on 4/23/16.
  */
 
-/** Model of a Vector */
+/**
+ * Model of a Vector
+ */
 public class Vector {
 
-    /** Name of vector. */
+    /**
+     * Name of vector.
+     */
     private String name;
 
-    /** Components. */
+    /**
+     * Components.
+     */
     private double[] components;
 
-    /** Dimension. */
+    /**
+     * Dimension.
+     */
     private double dimension;
 
-    /** Magnitude. */
+    /**
+     * Magnitude.
+     */
     private double magnitude;
 
-    /** Theduh. */
+    /**
+     * Theduh.
+     */
     private double theta;
 
-    /** Constructs vector from components and name. */
+    /**
+     * Constructs vector from components and name.
+     */
     public Vector(double[] components, String name) {
         this.name = name;
         this.dimension = components.length;
@@ -31,7 +45,9 @@ public class Vector {
         this.theta = angle();
     }
 
-    /** Constructs a vector from components. */
+    /**
+     * Constructs a vector from components.
+     */
     public Vector(double[] components) {
         this.dimension = components.length;
         this.components = components;
@@ -39,7 +55,9 @@ public class Vector {
         this.theta = angle();
     }
 
-    /** Construct from polar form. */
+    /**
+     * Construct from polar form.
+     */
     public Vector(double magnitude, double θ, String name) {
         this.name = name;
         this.dimension = 2;
@@ -48,7 +66,9 @@ public class Vector {
         this.components = new double[]{magnitude * Math.cos(θ), magnitude * Math.sin(θ)};
     }
 
-    /** Magnitude. */
+    /**
+     * Magnitude.
+     */
     public double magnitude() {
         double magnitude = 0;
         for (double component : components) {
@@ -57,7 +77,9 @@ public class Vector {
         return (Math.sqrt(magnitude));
     }
 
-    /** Prints a vector. */
+    /**
+     * Prints a vector.
+     */
     public void print() {
         System.out.print(name + " = <");
         for (int i = 0; i < dimension; i++) {
@@ -70,7 +92,9 @@ public class Vector {
         System.out.println();
     }
 
-    /** Normalizes vector. */
+    /**
+     * Normalizes vector.
+     */
     public Vector normalize() {
         Vector normalized = new Vector(components, "normalized");
         double magnitude = normalized.magnitude();
@@ -80,14 +104,20 @@ public class Vector {
         return normalized;
     }
 
-    /** Angle in Polur chords. */
+    /**
+     * Angle in Polur chords.
+     */
     public double angle() {
-        return Math.atan(components[0]/components[1]);
+        if (components[0] == 0) return Math.PI / 2;
+        else if (components[1] == 0) return 0;
+        return Math.atan(components[0] / components[1]);
     }
 
-    /** Scale vector. */
+    /**
+     * Scale vector.
+     */
     public Vector scale(double scalar) {
-        Vector scaled = new Vector(this.components, "scaled");
+        Vector scaled = new Vector(components, "scaled");
         for (int i = 0; i < scaled.dimension; i++) {
             scaled.components[i] *= scalar;
         }
@@ -99,11 +129,16 @@ public class Vector {
     }
 
     public double slope() {
-        return components[0]/components[1];
+        if (components[1] == 0) return 0;
+        return components[0] / components[1];
     }
 
     public boolean equals(Vector vector) {
-        return components == vector.getComponents();
+        if (vector.dimension != dimension) return false;
+        for (int i = 0; i < dimension; i++) {
+            if (components[i] != vector.getComponents()[i]) return false;
+        }
+        return true;
     }
 
     public String getName() {
@@ -125,5 +160,6 @@ public class Vector {
     public double[] getComponents() {
         return components;
     }
+
 }
 

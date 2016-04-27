@@ -3,18 +3,13 @@ package com.mobiledev.topimpamatrix;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 /**
  * Created by larspmayrand on 4/24/16.
  */
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, emulateSdk = 22)
 public class VectorTest {
 
-    private double EPSILON = 10e-3;
+    private double EPSILON = 10e-4;
 
     private Vector zeroVector;
     private Vector vectorA;
@@ -33,21 +28,22 @@ public class VectorTest {
 
     @Test
     public void testMagnitude() {
-        Assert.assertEquals(zeroVector.magnitude(), Math.sqrt(2), EPSILON);
-        Assert.assertEquals(vectorA.magnitude(), 0, EPSILON);
+        Assert.assertEquals(zeroVector.magnitude(), 0, EPSILON);
+        Assert.assertEquals(vectorA.magnitude(), Math.sqrt(2), EPSILON);
         Assert.assertEquals(unitYVector.magnitude(), 1, EPSILON);
     }
 
     @Test
     public void testNormalize() {
-        Assert.assertTrue(vectorB.normalize().equals(unitXVector));
+        Vector normalized = vectorB.normalize();
+        Assert.assertTrue(normalized.equals(unitXVector));
     }
 
     @Test
     public void testAngle() {
         Assert.assertEquals(unitXVector.angle(), 0, EPSILON);
-        Assert.assertEquals(unitYVector.angle(), 90, EPSILON);
-        Assert.assertEquals(vectorA.angle(), 45, EPSILON);
+        Assert.assertEquals(unitYVector.angle(), Math.PI/2, EPSILON);
+        Assert.assertEquals(vectorA.angle(), 0.785398, EPSILON); // 0.785398 radians = 45 degrees
     }
 
     @Test

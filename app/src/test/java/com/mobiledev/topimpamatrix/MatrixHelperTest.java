@@ -24,27 +24,48 @@ public class MatrixHelperTest {
 
     @Before
     public void setup() {
-        Complex64F[] complexNumbers = new Complex64F[]{new Complex64F(1, 1), new Complex64F(1, 1)};
-        DenseMatrix64F identity = new DenseMatrix64F(new double[][]{{1, 0},{0, 1}});
-        CDenseMatrix64F complexIdentity = new CDenseMatrix64F(new double[][]{{1, 0, 0, 0},{0, 0, 1, 0}});
-        CDenseMatrix64F complexMatrix = new CDenseMatrix64F(new double[][]{{1, 1, 1, 1},{1, 1, 1, 1}});
-        CDenseMatrix64F realMatrix = new CDenseMatrix64F(new double[][]{{1, 0, 1, 0},{1, 0, 1, 0}});
-        CDenseMatrix64F complexVector = new CDenseMatrix64F(new double[][]{{1, 1, 1, 1},{}});
-        CDenseMatrix64F realVector = new CDenseMatrix64F(new double[][]{{1, 0, 1, 0},{}});
-        CDenseMatrix64F complexNumber = new CDenseMatrix64F(new double[][]{{1, 1},{}});
-        CDenseMatrix64F realNumber = new CDenseMatrix64F(new double[][]{{1, 0},{}});
+        complexNumbers = new Complex64F[]{new Complex64F(1, 1), new Complex64F(1, 1)};
+        identity = new DenseMatrix64F(new double[][]{{1, 0},{0, 1}});
+
+        complexIdentity = new CDenseMatrix64F(2, 2);
+        complexIdentity.set(0, 0, 1, 1);
+        complexIdentity.set(0, 1, 0, 0);
+        complexIdentity.set(1, 0, 0, 0);
+        complexIdentity.set(1, 1, 1, 1);
+
+        complexMatrix = new CDenseMatrix64F(2, 2);
+        for (int i = 0; i < 2; i++) { complexMatrix.set(i, i, 1, 1); }
+
+        realMatrix = new CDenseMatrix64F(new double[][]{{1, 0, 1, 0},{1, 0, 1, 0}});
+
+        complexVector = new CDenseMatrix64F(2, 1);
+        complexVector.set(0, 0, 1, 1);
+        complexVector.set(1, 0, 1, 1);
+
+        realVector = new CDenseMatrix64F(2, 1);
+        realVector.set(0, 0, 1, 0);
+        realVector.set(1, 0, 1, 0);
+
+        complexNumber = new CDenseMatrix64F(1, 1);
+        complexNumber.set(0, 0, 1, 1);
+
+        realNumber = new CDenseMatrix64F(1, 1);
+        realNumber.set(0, 0, 1, 0);
     }
 
+    // fails
     @Test
     public void testMakeComplex() {
         Assert.assertTrue(MatrixHelper.makeComplex(identity).equals(complexIdentity));
     }
 
+    // fails
     @Test
     public void testMakeReal() {
         Assert.assertTrue(MatrixHelper.makeReal(realMatrix).equals(new DenseMatrix64F(new double[][]{{1, 1}, {1, 1}})));
     }
 
+    // fails
     @Test
     public void testClassify() {
         Assert.assertEquals(MatrixHelper.classify(MatrixHelper.makeComplex(identity)), "complex matrix");
@@ -56,6 +77,7 @@ public class MatrixHelperTest {
         Assert.assertEquals(MatrixHelper.classify(realNumber), "real number");
     }
 
+    // fails
     @Test
     public void testMakeVector() {
         Assert.assertTrue(MatrixHelper.makeVector(complexVector).equals(new ComplexVector(complexNumbers)));
@@ -72,11 +94,13 @@ public class MatrixHelperTest {
         Assert.assertTrue(MatrixHelper.isSquare(realMatrix));
     }
 
+    // fails
     @Test
     public void testTrace() {
         Assert.assertTrue(MatrixHelper.trace(complexMatrix).equals(new Complex64F(4, 4)));
     }
 
+    // fails
     @Test
     public void testIsPrime() {
         int[] primes = new int[]{2, 3, 5, 7, 1721, 1723, 1733};
@@ -84,8 +108,10 @@ public class MatrixHelperTest {
             Assert.assertTrue(MatrixHelper.isPrime(prime));
         }
         Assert.assertFalse(MatrixHelper.isPrime(20));
+        Assert.assertTrue(true);
     }
 
+    // fails
     @Test
     public void testTwinPrime() {
         int[] twins = new int[]{3, 29, 59, 347};

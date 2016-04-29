@@ -35,7 +35,7 @@ public class FormatHelper {
     }
 
     public static String matricesToLatex(CDenseMatrix64F matrixA, CDenseMatrix64F matrixB) {
-        return makeLatexString(6, matrixToString(matrixA) + matrixToString(matrixB));
+        return makeLatexString(6, matrixToString(matrixA) + "★" + matrixToString(matrixB));
     }
 
     public static String matrixToLatex(CDenseMatrix64F matrix) {

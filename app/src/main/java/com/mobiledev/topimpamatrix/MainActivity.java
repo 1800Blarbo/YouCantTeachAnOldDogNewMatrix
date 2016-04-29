@@ -15,7 +15,9 @@ import java.util.Random;
  */
 public class MainActivity extends AppCompatActivity {
 
-    public  final static String SERIALIZABLE_KEY = "key";
+    public  final static String SERIALIZABLE_KEY_A = "key_a";
+    public  final static String SERIALIZABLE_KEY_B = "key_b";
+    public static final String SERIALIZABLE_KEY = "key";
 
     public static int columns;
     public static int rows;
@@ -26,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         /** Change these strings to change what Activity is launched. */
         String mathematicalObject = "matrix"; // choices: "matrix", "vector", "number"
-        String activityType = "details"; // "calculator" for CalculatorActivity, "details" for DetailActivity
-        boolean complex = false; // set to false for real objects
+        String activityType = "calculator"; // "calculator" for CalculatorActivity, "details" for DetailActivity
+        boolean complex = true; // set to false for real objects
 
         switch (mathematicalObject) {
 
@@ -72,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, CalculatorActivity.class);
         Bundle mBundle = new Bundle();
-        mBundle.putSerializable(SERIALIZABLE_KEY, matrixA);
-        mBundle.putSerializable(SERIALIZABLE_KEY, matrixB);
+        mBundle.putSerializable(SERIALIZABLE_KEY_A, matrixA);
+        mBundle.putSerializable(SERIALIZABLE_KEY_B, matrixB);
         intent.putExtras(mBundle);
         startActivity(intent);
     }

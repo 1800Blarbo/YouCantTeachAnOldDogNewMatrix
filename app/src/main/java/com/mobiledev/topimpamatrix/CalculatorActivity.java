@@ -1,12 +1,16 @@
 package com.mobiledev.topimpamatrix;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageButton;
+
+import com.mobiledev.topimpamatrix.Keyboard.KeyboardActivity;
+import com.mobiledev.topimpamatrix.Keyboard.MathKeyboard;
 
 import org.ejml.data.CDenseMatrix64F;
 
@@ -30,8 +34,11 @@ public class CalculatorActivity extends Activity {
 
     public static final String ARG_MATRIX = "matrix";
 
-    public  final static String SERIALIZABLE_KEY_A = "key_a";
-    public  final static String SERIALIZABLE_KEY_B = "key_b";
+    public final static String SERIALIZABLE_KEY_A = "key_a";
+    public final static String SERIALIZABLE_KEY_B = "key_b";
+    public final static String SERIALIZABLE_KEY = "key";
+
+    private MathKeyboard mathKeyboard;
 
     @Bind(R.id.detail_recycler)
     RecyclerView mRecyclerView;
@@ -41,6 +48,8 @@ public class CalculatorActivity extends Activity {
 
     @Bind(R.id.activity_calculator_icon)
     ImageButton mCalculatorIcon;
+
+//    CDenseMatrix64F mMatrix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +96,11 @@ public class CalculatorActivity extends Activity {
 
     @OnClick(R.id.activity_keyboard_icon)
     public void keyboardButtonClicked() {
-//        CDenseMatrix64F matrix = CRandomMatrices.createHermPosDef(2, new Random());
-//        Intent intent = new Intent(this, Detail.class);
-//        Bundle mBundle = new Bundle();
-//        mBundle.putSerializable(SERIALIZABLE_KEY, matrix);
-//        intent.putExtras(mBundle);
-//        startActivity(intent);
+        Intent intent = new Intent(this, KeyboardActivity.class);
+        Bundle mBundle = new Bundle();
+        //mBundle.putSerializable(SERIALIZABLE_KEY, matrix);
+        //intent.putExtras(mBundle);
+        startActivityForResult(intent, 100);
     }
 
 }

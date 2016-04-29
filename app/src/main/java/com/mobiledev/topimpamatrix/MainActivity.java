@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /** Change these strings to change what Activity is launched. */
+        /** Change these values to choose change what Activity is launched. */
         String mathematicalObject = "matrix"; // choices: "matrix", "vector", "number"
         String activityType = "calculator"; // "calculator" for CalculatorActivity, "details" for DetailActivity
         boolean complex = true; // set to false for real objects

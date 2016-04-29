@@ -35,6 +35,14 @@ public class FormatHelperTest {
     }
 
     @Test
+    public void testStringToComplex() {
+        String numberA = "1 + 2i";
+        String numberB = "i";
+        Assert.assertTrue(new Complex64F(0, 1).equals(FormatHelper.stringToComplex(numberA)));
+        Assert.assertTrue(new Complex64F(1, 2).equals(FormatHelper.stringToComplex(numberB)));
+    }
+
+    @Test
     public void testDoubleToString() {
         Assert.assertEquals(FormatHelper.doubleToString(3.23124, 2), 3.23 + "");
         Assert.assertEquals(FormatHelper.doubleToString(1.00, 2), 1 + "");

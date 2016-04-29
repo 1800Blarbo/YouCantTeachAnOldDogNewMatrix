@@ -7,26 +7,41 @@ public class Detail {
 
     private String latex;
     private String description;
+    private String definition;
 
-    public Detail(String description, String latex) {
+    public Detail(String description, String latex, String definition) {
         this.description = description;
         this.latex = latex;
+        this.definition = definition;
+    }
+
+    public Detail(String latex, String description) {
+        this.latex = latex;
+        this.description = description;
     }
 
     public String getLatex() {
         return latex;
     }
 
-    public void setLatex(String latex) {
-        this.latex = latex;
-    }
-
     public String getDescription() {
         return description;
     }
 
+    public String getDefinition() {
+        return definition;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setDefinition(String definition) {
+        this.definition = definition;
+    }
+
+    public void setLatex(String latex) {
+        this.latex = latex;
     }
 
 }

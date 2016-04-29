@@ -138,4 +138,45 @@ public class MatrixHelper {
         return isPrime(n) && (isPrime(n - 2) || isPrime(n + 2));
     }
 
+    public static boolean isTotallyPositive(CDenseMatrix64F matrix) {
+        return false;
+    }
+
+    public static boolean isTotallyPositive(DenseMatrix64F matrix) {
+        return false;
+    }
+
+//    public static boolean isTotallyPositive(CDenseMatrix64F matrix) {
+//        if (matrix.numCols != matrix.numRows) return false;
+//        for (CDenseMatrix64F submatrix : MatrixHelper.submatrices(matrix)) {
+//            if (CCommonOps.det(submatrix).getMagnitude() > 0) return false;
+//        }
+//        return true;
+//    }
+
+//    public static Complex64F[] minors(CDenseMatrix64F matrix64F) {
+//
+//    }
+//
+//    public static CDenseMatrix64F[] submatrices(CDenseMatrix64F matrix) {
+//        // how many submatrices?
+//        /**
+//         * delete 1 column
+//         * delete 1 row
+//         * delete 1 column & 1 row
+//         * delete 2 columns & 1 row
+//         * delete 1 column and & rows
+//         * ...
+//         * where
+//         */
+//        for (int r = 0; r < matrix.numRows; r++) {
+//            for (int c = 0; c < matrix.numCols; c++) {
+//                if (r == c) {
+//                    realPart += matrix.getReal(r, c);
+//                    imaginaryPart += matrix.getImaginary(r, c);
+//                }
+//            }
+//        }
+//    }
+
 }

@@ -152,6 +152,46 @@ public class FormatHelper {
         return complex.imaginary > 0 ? realPart + " + " + imaginaryPart + "i" : realPart + " - " + imaginaryPart + "i";
     }
 
+    public static Complex64F stringToComplex(String string) {
+
+        /** assuming input in form: "# +/- #i".*/
+//        double real = 0;
+//        double imaginary = 0;
+//        boolean realSet = false;
+//        boolean imaginarySet = false;
+//        boolean sign1 = true; // true: positive, false: negative
+//        boolean sign2 = true; // true: positive, false: negative
+//        int pivot = 0;
+//        switch (string.charAt(i)) {
+//                case 'i':
+//                    if ()
+//                    break;
+//
+//                case '+':
+//                    if (i == 0) continue;
+//                    else {
+//                        pivot = i;
+//                        if (realSet && )
+//                        sign = true;
+//                    }
+//                    break;
+//
+//                case '-':
+//                    if (i == 0) sign1 = false;
+//                    if (realSet || imaginarySet) sign2 = false;
+//                    break;
+//
+//                default:
+
+
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == '+' || string.charAt(i) == '-') {
+                return new Complex64F(Double.parseDouble(string.substring(0, i)), Double.parseDouble(string.substring(i + 1, string.length() - 1)));
+            }
+        }
+        return new Complex64F(0, Double.parseDouble(string.substring(0, string.length() - 1)));
+    }
+
     public static String doubleToString(double value, int places) {
         if ((int) value == value) return (int) value + "";
         return round(value, places) + "";

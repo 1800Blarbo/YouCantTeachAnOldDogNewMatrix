@@ -13,6 +13,10 @@ import java.math.RoundingMode;
  */
 public class FormatHelper {
 
+    public static String parseLatexString() {
+        return "";
+    }
+
     /**
      * For HTML string size, not LaTeX size (unfortunately).
      */

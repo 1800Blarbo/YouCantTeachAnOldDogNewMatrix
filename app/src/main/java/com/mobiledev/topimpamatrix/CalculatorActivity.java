@@ -9,10 +9,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 
-import com.mobiledev.topimpamatrix.Keyboard.KeyboardActivity;
 import com.mobiledev.topimpamatrix.Keyboard.MathKeyboard;
 
 import org.ejml.data.CDenseMatrix64F;
+import org.ejml.ops.RandomMatrices;
+
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -79,28 +81,34 @@ public class CalculatorActivity extends Activity {
 
     @OnClick(R.id.activity_camera_icon)
     public void cameraButtonClicked() {
-        //startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        CDenseMatrix64F matrix = new CDenseMatrix64F(1, 1);
+        matrix.set(0, 0, -1, 1);
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putSerializable(SERIALIZABLE_KEY, matrix);
+        intent.putExtras(mBundle);
+        startActivity(intent);
     }
 
     @OnClick(R.id.activity_calculator_icon)
     public void calculatorButtonClicked() {
-//        CDenseMatrix64F matrixA = CRandomMatrices.createHermitian(2, -10, 10, new Random());
-//        CDenseMatrix64F matrixB = CRandomMatrices.createHermPosDef(2, new Random());
-//        Intent intent = new Intent(this, CalculatorActivity.class);
-//        Bundle mBundle = new Bundle();
-//        mBundle.putSerializable(SERIALIZABLE_KEY, matrixA);
-//        mBundle.putSerializable(SERIALIZABLE_KEY, matrixB);
-//        intent.putExtras(mBundle);
-//        startActivity(intent);
+        CDenseMatrix64F matrix = new CDenseMatrix64F(MatrixHelper.makeComplex(RandomMatrices.createOrthogonal(2, 2, new Random())));
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putSerializable(SERIALIZABLE_KEY, matrix);
+        intent.putExtras(mBundle);
+        startActivity(intent);
     }
 
     @OnClick(R.id.activity_keyboard_icon)
     public void keyboardButtonClicked() {
-        Intent intent = new Intent(this, KeyboardActivity.class);
-        Bundle mBundle = new Bundle();
-        //mBundle.putSerializable(SERIALIZABLE_KEY, matrix);
-        //intent.putExtras(mBundle);
-        startActivityForResult(intent, 100);
+//        Intent intent = new Intent(this, KeyboardActivity.class);
+//        Bundle mBundle = new Bundle();
+//        //mBundle.putSerializable(SERIALIZABLE_KEY, matrix);
+//        //intent.putExtras(mBundle);
+//        startActivityForResult(intent, 100);
     }
 
 }

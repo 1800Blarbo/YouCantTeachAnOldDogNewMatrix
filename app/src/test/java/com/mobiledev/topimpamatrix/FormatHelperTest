@@ -40,6 +40,7 @@ public class FormatHelperTest {
         String numberB = "i";
         Assert.assertTrue(new Complex64F(0, 1).equals(FormatHelper.stringToComplex(numberA)));
         Assert.assertTrue(new Complex64F(1, 2).equals(FormatHelper.stringToComplex(numberB)));
+        // get rid out .equals cz it fks everything up
     }
 
     @Test

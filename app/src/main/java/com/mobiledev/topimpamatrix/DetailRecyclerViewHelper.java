@@ -38,6 +38,9 @@ public class DetailRecyclerViewHelper {
     }
 
     public static Detail[] getComplexMatrixDetails(CDenseMatrix64F matrix) {
+//        LinearDictionary linearDictionary = new LinearDictionary();
+//        Map<String, String> dictionary = linearDictionary.getDictionary();
+
         Detail[] details = new Detail[11];
 
         // matrix details
@@ -51,7 +54,7 @@ public class DetailRecyclerViewHelper {
             CTransposeAlgs.standardConjugate(matrix, conjugate);
         }
         details[0] = new Detail("Transpose", FormatHelper.matrixToString(transposed), R.string.transpose_definition + "");
-        details[1] = new Detail("Conjugate", FormatHelper.matrixToString(conjugate), "Conjugate: ");
+        details[1] = new Detail("Conjugate", FormatHelper.matrixToString(conjugate), "asdf");
 
         // numerical details
         details[2] = new Detail("Determinant", FormatHelper.complexToString(CCommonOps.det(matrix)) + "",
@@ -75,8 +78,9 @@ public class DetailRecyclerViewHelper {
                 "In linear algebra, a symmetric n × n real matrix M is said to be positive definite if the scalar z^{\\mathrm{T}}Mz is positive " +
                         "for every non-zero column vector" + " z of n real numbers. Here z^{\\mathrm{T}} denotes the transpose of z.");
                         /** SOURCE: https://en.wikipedia.org/wiki/Positive-definite_matrix */
-        details[8] = new Detail("Unitary", FormatHelper.booleanToString(CMatrixFeatures.isUnitary(matrix, 1e-8)),
-                "Unitary: A matrix equal to its conjugate transpose is equal to its inverse.");
+        details[8] = new Detail("Transjugate (adjoint)", FormatHelper.booleanToString(CMatrixFeatures.isUnitary(matrix, 1e-8)),
+                "Unitary: A matrix equal whose conjugate transpose is equal to its inverse.");
+
         details[9] = new Detail("Square", FormatHelper.booleanToString(MatrixHelper.isSquare(matrix)),
                 "Square: width equals height.");
 
@@ -195,7 +199,7 @@ public class DetailRecyclerViewHelper {
 
     public static Detail[] getComplexNumberDetails(Complex64F number) {
         ComplexPolar64F polarForm = new ComplexPolar64F(number);
-        Detail[] details = new Detail[2];
+        Detail[] details = new Detail[3];
         details[0] = new Detail("Modulus", "|z| = " + FormatHelper.round(polarForm.getR(), 2), "Modulus: Distance from the origin to the number in the complex plane.");
         details[1] = new Detail("Argument", "θ = " + FormatHelper.round(polarForm.getTheta(), 2), "Argument: Angle from the positive real axis to the number.");
         details[2] = new Detail("Conjugate", FormatHelper.complexToString(new Complex64F(number.real, -number.imaginary)), "Conjugate: Result when reflecting a number over the real axis.");

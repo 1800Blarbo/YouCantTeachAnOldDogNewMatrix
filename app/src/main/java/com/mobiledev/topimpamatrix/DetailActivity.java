@@ -1,6 +1,7 @@
 package com.mobiledev.topimpamatrix;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -95,7 +96,15 @@ public class DetailActivity extends Activity {
 
     @OnClick(R.id.activity_camera_icon)
     public void cameraButtonClicked() {
-       //  startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        CDenseMatrix64F matrix = new CDenseMatrix64F(2, 1);
+        matrix.set(0, 0, 1, 0);
+        matrix.set(1, 0, 2, 0);
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putSerializable(SERIALIZABLE_KEY, matrix);
+        intent.putExtras(mBundle);
+        startActivity(intent);
     }
 
     //Idk

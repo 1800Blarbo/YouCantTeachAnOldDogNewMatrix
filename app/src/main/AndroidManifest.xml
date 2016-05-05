@@ -31,6 +31,7 @@
         </activity>
         <activity android:name=".DetailActivity"></activity>
         <activity android:name=".CalculatorActivity"></activity>
+        <activity android:name=".DictionaryActivity"></activity>
     </application>
 
 </manifest>

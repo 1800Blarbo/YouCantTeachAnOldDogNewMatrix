@@ -38,9 +38,10 @@ public class FormatHelperTest {
     public void testStringToComplex() {
         String numberA = "1 + 2i";
         String numberB = "i";
-        Assert.assertTrue(new Complex64F(0, 1).equals(FormatHelper.stringToComplex(numberA)));
-        Assert.assertTrue(new Complex64F(1, 2).equals(FormatHelper.stringToComplex(numberB)));
-        // get rid out .equals cz it fks everything up
+        Assert.assertTrue(FormatHelper.stringToComplex(numberA).real == 0);
+        Assert.assertTrue(FormatHelper.stringToComplex(numberA).imaginary == 1);
+        Assert.assertTrue(FormatHelper.stringToComplex(numberB).real == 1);
+        Assert.assertTrue(FormatHelper.stringToComplex(numberB).imaginary == 2);
     }
 
     @Test

@@ -107,16 +107,12 @@ public class DetailActivity extends Activity {
         startActivity(intent);
     }
 
-    //Idk
     @Nullable
     @OnClick(R.id.matrix_number)
     public void gridViewClicked() {
-        System.out.println("Clicked");
-//
 //        mMatrixGridItem.setInputType(InputType.TYPE_CLASS_NUMBER);
 //        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.showSoftInput((mMatrixGridItem), InputMethodManager.SHOW_IMPLICIT);
-
     }
 
 

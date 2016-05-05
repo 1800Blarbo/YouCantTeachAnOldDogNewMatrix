@@ -32,7 +32,7 @@ public class CalculatorActivity extends Activity {
     public static final String TAG = CalculatorActivity.class.getSimpleName();
 
     private Detail[] mDetails;
-    private DetailRecyclerViewAdapter mAdapter;
+    private DictionaryRecyclerViewAdapter mAdapter;
 
     public static final String ARG_MATRIX = "matrix";
 
@@ -68,12 +68,12 @@ public class CalculatorActivity extends Activity {
         mWebView.loadDataWithBaseURL("file:///android_asset/", js, "text/html", "UTF-8", null);
 
         mDetails = CalculatorRecyclerViewHelper.getCalculations(matrixA, matrixB);
-        mAdapter = new DetailRecyclerViewAdapter(mDetails, new DetailRecyclerViewAdapter.DetailRowOnClickListener() {
-            @Override
-            public void onDetailRowClick(Detail detail) {
-                // toast
-            }
-        });
+//        mAdapter = new DetailRecyclerViewAdapter(mDetails, new DetailRecyclerViewAdapter.DetailRowOnClickListener() {
+//            @Override
+//            public void onDetailRowClick(Detail detail) {
+//                // toast
+//            }
+//        });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);

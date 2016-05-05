@@ -37,7 +37,7 @@ public class DetailRecyclerViewAdapter extends RecyclerView.Adapter<DetailRecycl
 
     @Override
     public void onBindViewHolder(DetailViewHolder holder, int position) {
-        final Detail detail = mDetails[position]; // CRASHSES AT 9
+        final Detail detail = mDetails[position];
 
         holder.mTextView.setText(detail.getDescription());
         WebSettings webSettings = holder.mWebView.getSettings();

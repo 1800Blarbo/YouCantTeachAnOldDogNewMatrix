@@ -17,5 +17,6 @@
     <string name="label_subtype_generic">%s</string>
     <string name="label_done_key">Done</string>
     <string name="transpose_definition">Transpose: The resulting matrix when reflecting elements over the main diagonal. </string>
+    <string name="linear_algebra_glossary">Linear Algebra Glossary</string>
 
 </resources>

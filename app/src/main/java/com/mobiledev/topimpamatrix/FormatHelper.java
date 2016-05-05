@@ -13,12 +13,19 @@ import java.math.RoundingMode;
  */
 public class FormatHelper {
 
-    public static String parseLatexString() {
-        return "";
+    /** For string with math and not math. */
+    public static String latex(String string) {
+        return "<html><head>"
+                + "<link rel='stylesheet' href='file:///android_asset/jqmath-0.4.3.css'>"
+                + "<script src='file:///android_asset/jquery-1.4.3.min.js'></script>"
+                + "<script src='file:///android_asset/jqmath-etc-0.4.3.min.js'></script>"
+                + "</head></font><body>"
+                + string + "</body></html>";
     }
 
     /**
      * For HTML string size, not LaTeX size (unfortunately).
+     * for strings that are just math
      */
     public static String makeLatexString(int size, String string) {
         return "<html><head>"

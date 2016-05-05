@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** Dictionary. */
     private void dictionary() {
-//        startActivity(new Intent(this, DictionaryActivity.class));
+        startActivity(new Intent(this, DictionaryActivity.class));
     }
 
     /** CalculatorActivity: complex matrix. */
@@ -115,6 +115,12 @@ public class MainActivity extends AppCompatActivity {
     /** DetailActivity: real matrix. */
     public void realMatrixDetails() {
         CDenseMatrix64F matrix = new CDenseMatrix64F(MatrixHelper.makeComplex(RandomMatrices.createOrthogonal(2, 2, new Random())));
+
+        for (int r = 0; r < matrix.numRows; r++) {
+            for (int c = 0; c < matrix.numCols; c++) {
+                matrix.set(r, c, (int) matrix.getReal(r, c), 0);
+            }
+        }
 
         Intent intent = new Intent(this, DetailActivity.class);
         Bundle mBundle = new Bundle();

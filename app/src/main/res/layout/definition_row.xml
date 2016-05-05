@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:elevation="4dp"
+    android:layout_margin="1dp"
+    android:elevation="1dp"
     cardview:cardCornerRadius="4dp"
 
     >
@@ -16,12 +16,12 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:orientation="horizontal"
-        android:padding="16dp">
+        >
 
         <WebView
+            android:id="@+id/definition_row_webview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/definition_row_webview"
             android:textSize="14sp"
             android:layout_weight="1"
             android:scrollbars="none"
